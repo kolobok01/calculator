@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Asset Settlement | Wells Fargo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        wf: {
+                            red: '#D71E28',
+                            gold: '#FFCD41',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .card-hover { transition: all 0.2s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+        .input-focus:focus { box-shadow: 0 0 0 3px rgba(215, 30, 40, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Clean Header -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-wf-red rounded-lg flex items-center justify-center">
+                        <i data-lucide="landmark" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900">Wells Fargo <span class="text-gray-400 font-normal">Digital Assets</span></span>
+                </div>
+                <nav class="hidden md:flex items-center gap-8 text-sm text-gray-600">
+                    <a href="#calculator" class="hover:text-wf-red transition-colors">Calculator</a>
+                    <a href="#products" class="hover:text-wf-red transition-colors">Products</a>
+                    <a href="#business-case" class="hover:text-wf-red transition-colors">CFO Brief</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero - Clean & Simple -->
+    <section class="bg-white border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+            <div class="max-w-2xl">
+                <p class="text-wf-red font-medium text-sm mb-3">Deposit Token Infrastructure</p>
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    Settlement in seconds,<br>not days.
+                </h1>
+                <p class="text-xl text-gray-500 mb-8">
+                    Convert USD to GBP using blockchain-backed deposit tokens. Real-time settlement with transparent fees.
+                </p>
+                <a href="#calculator" class="inline-flex items-center gap-2 bg-wf-red text-white font-medium px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                    <i data-lucide="calculator" class="w-5 h-5"></i>
+                    Try the Calculator
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Calculator -->
+    <section id="calculator" class="py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+
+                <!-- Input Panel -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h2 class="font-semibold text-gray-900 mb-6">Payment Details</h2>
+
+                        <!-- USD Input -->
+                        <div class="mb-6">
+                            <label class="block text-sm text-gray-500 mb-2">Amount to Send</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">$</span>
+                                <input
+                                    type="text"
+                                    id="usdInput"
+                                    placeholder="100,000"
+                                    class="w-full pl-10 pr-4 py-4 text-2xl font-semibold border border-gray-200 rounded-xl input-focus focus:border-wf-red focus:outline-none transition-all"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- GBP Output -->
+                        <div class="bg-gray-50 rounded-xl p-5 mb-6">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-sm text-gray-500">Beneficiary Receives</span>
+                                <span class="text-xs text-gray-400">after all fees</span>
+                            </div>
+                            <p id="gbpOutput" class="text-3xl font-bold text-gray-900">£0.00</p>
+                        </div>
+
+                        <!-- Liquidity Status -->
+                        <div id="liquidityStatus" class="rounded-xl p-4 bg-emerald-50 border border-emerald-100 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div id="liquidityIconWrapper" class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                                    <i data-lucide="check" id="liquidityIcon" class="w-5 h-5 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <p id="liquidityText" class="font-medium text-emerald-700">Liquidity Available</p>
+                                    <p id="liquidityDetail" class="text-sm text-emerald-600">Within peg balance limit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fee Summary Card -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="font-semibold text-gray-900 mb-4">Fee Summary</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">FX Rate (incl. 0.75% markup)</span>
+                                <span class="text-gray-900">1.3098</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Mint Fee (0.03%)</span>
+                                <span id="mintFeeDisplay" class="text-gray-900">$0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Settlement Fee</span>
+                                <span class="text-gray-900">£15.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Network Fee</span>
+                                <span class="text-gray-900">£0.10</span>
+                            </div>
+                            <hr class="border-gray-100 my-2">
+                            <div class="flex justify-between font-medium">
+                                <span class="text-gray-700">Total Cost</span>
+                                <span id="totalCost" class="text-wf-red">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transaction History (Collapsed) -->
+                    <details class="bg-white rounded-2xl shadow-sm border border-gray-100 group">
+                        <summary class="px-6 py-4 cursor-pointer flex items-center justify-between">
+                            <span class="font-medium text-gray-700 flex items-center gap-2">
+                                <i data-lucide="history" class="w-4 h-4 text-gray-400"></i>
+                                History
+                                <span id="historyCount" class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded-full">0</span>
+                            </span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <div class="px-6 pb-4 space-y-3">
+                            <div class="flex gap-2">
+                                <button id="saveToHistory" class="flex-1 bg-gray-100 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors">
+                                    Save Current
+                                </button>
+                                <button id="clearHistory" class="bg-gray-100 text-gray-500 text-sm py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors">
+                                    Clear
+                                </button>
+                            </div>
+                            <div id="historyList" class="space-y-2 max-h-48 overflow-y-auto">
+                                <p class="text-sm text-gray-400 text-center py-3">No saved transactions</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Flow Visualization -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
+                        <h2 class="font-semibold text-gray-900 mb-6">Settlement Flow</h2>
+
+                        <!-- Horizontal Flow for Desktop -->
+                        <div class="hidden lg:block">
+                            <div class="flex items-stretch gap-3">
+                                <!-- Step 1: Originator -->
+                                <div class="flex-1 bg-gray-50 rounded-xl p-4 relative">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">1</div>
+                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Originator</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mb-2">Debit USD</p>
+                                    <p id="step1Amount" class="text-lg font-bold text-gray-900">$0.00</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Treasury -->
+                                <div class="flex-1 bg-red-50 rounded-xl p-4 relative border border-red-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-6 h-6 bg-wf-red rounded-full flex items-center justify-center text-xs font-bold text-white">2</div>
+                                        <span class="text-xs font-medium text-red-600 uppercase tracking-wide">Treasury</span>
+                                    </div>
+                                    <p class="text-xs text-red-400 mb-2">Convert to GBP</p>
+                                    <p id="step2Amount" class="text-lg font-bold text-gray-900">£0.00</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Blockchain -->
+                                <div class="flex-1 bg-amber-50 rounded-xl p-4 relative border border-amber-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white">3</div>
+                                        <span class="text-xs font-medium text-amber-600 uppercase tracking-wide">Blockchain</span>
+                                    </div>
+                                    <p class="text-xs text-amber-500 mb-2">Mint → Burn WFGBP</p>
+                                    <p id="step3Amount" class="text-lg font-bold text-gray-900">0 WFGBP</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Beneficiary -->
+                                <div class="flex-1 bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-xs font-bold text-white">4</div>
+                                        <span class="text-xs font-medium text-emerald-600 uppercase tracking-wide">Beneficiary</span>
+                                    </div>
+                                    <p class="text-xs text-emerald-500 mb-2">Credit GBP</p>
+                                    <p id="step4Amount" class="text-lg font-bold text-emerald-600">£0.00</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical Flow for Mobile -->
+                        <div class="lg:hidden space-y-3">
+                            <div class="bg-gray-50 rounded-xl p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm font-bold text-gray-600">1</div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Originator Debit</p>
+                                        <p id="step1AmountMobile" class="font-bold text-gray-900">$0.00</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                            </div>
+                            <div class="bg-red-50 rounded-xl p-4 flex items-center justify-between border border-red-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-wf-red rounded-full flex items-center justify-center text-sm font-bold text-white">2</div>
+                                    <div>
+                                        <p class="text-xs text-red-500">Treasury Convert</p>
+                                        <p id="step2AmountMobile" class="font-bold text-gray-900">£0.00</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                            </div>
+                            <div class="bg-amber-50 rounded-xl p-4 flex items-center justify-between border border-amber-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-sm font-bold text-white">3</div>
+                                    <div>
+                                        <p class="text-xs text-amber-500">Mint & Burn WFGBP</p>
+                                        <p id="step3AmountMobile" class="font-bold text-gray-900">0 WFGBP</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                            </div>
+                            <div class="bg-emerald-50 rounded-xl p-4 flex items-center justify-between border border-emerald-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-sm font-bold text-white">4</div>
+                                    <div>
+                                        <p class="text-xs text-emerald-500">Beneficiary Receives</p>
+                                        <p id="step4AmountMobile" class="font-bold text-emerald-600">£0.00</p>
+                                    </div>
+                                </div>
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                            </div>
+                        </div>
+
+                        <!-- Summary Stats -->
+                        <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-100">
+                            <div class="text-center">
+                                <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Input</p>
+                                <p id="summaryInput" class="text-lg font-bold text-gray-900">$0</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Fees</p>
+                                <p id="summaryFees" class="text-lg font-bold text-wf-red">$0</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Output</p>
+                                <p id="summaryOutput" class="text-lg font-bold text-emerald-600">£0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Suite -->
+    <section id="products" class="py-16 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <p class="text-wf-red font-medium text-sm mb-2">Blockchain Banking Suite</p>
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">Products Built on Deposit Tokens</h2>
+                <p class="text-gray-500 max-w-xl mx-auto">Enterprise DeFi infrastructure for institutional clients</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- 1. DeFi Lending (like Nolus) -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="landmark" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Collateralized Lending</h3>
+                            <p class="text-xs text-blue-600">Like Nolus Protocol</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Borrow against deposit tokens with lower collateral requirements than traditional DeFi. Smart contract liquidation protection.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">LTV Ratio</span>
+                            <span class="font-semibold text-gray-900">Up to 85%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Interest Rate</span>
+                            <span class="font-semibold text-gray-900">4.5% - 8% APR</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Origination Fee</span>
+                            <span class="font-semibold text-blue-600">0.5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Yield Products -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 border border-emerald-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Yield Vaults</h3>
+                            <p class="text-xs text-emerald-600">Tokenized Money Markets</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Clients earn yield on deposit tokens via treasury strategies. Bank retains spread between lending rate and client payout.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Client Yield</span>
+                            <span class="font-semibold text-emerald-600">Fed Funds - 50bps</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Bank NIM</span>
+                            <span class="font-semibold text-emerald-600">+85 bps</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Management Fee</span>
+                            <span class="font-semibold text-gray-900">0.15%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Trade Finance -->
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="ship" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Trade Finance</h3>
+                            <p class="text-xs text-amber-600">On-Chain Letters of Credit</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Programmable LCs and supply chain financing. Automatic release on delivery confirmation via oracle.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">LC Issuance</span>
+                            <span class="font-semibold text-gray-900">0.125%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Amendment Fee</span>
+                            <span class="font-semibold text-gray-900">$150</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Settlement</span>
+                            <span class="font-semibold text-amber-600">T+0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Tokenized Securities -->
+                <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="file-text" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Tokenized Bonds</h3>
+                            <p class="text-xs text-purple-600">RWA Securities</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Fractional ownership of treasury bonds and corporate debt. 24/7 secondary market trading.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Min Investment</span>
+                            <span class="font-semibold text-gray-900">$100</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Trading Fee</span>
+                            <span class="font-semibold text-gray-900">0.05%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Custody</span>
+                            <span class="font-semibold text-purple-600">0.08% AUM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. FX Forwards/Swaps -->
+                <div class="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6 border border-rose-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-rose-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="repeat" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">FX Derivatives</h3>
+                            <p class="text-xs text-rose-600">On-Chain Forwards & Swaps</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Hedge currency risk with smart contract derivatives. Automatic settlement at expiry with no counterparty risk.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Forward Premium</span>
+                            <span class="font-semibold text-gray-900">0.15%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Swap Spread</span>
+                            <span class="font-semibold text-gray-900">8 bps</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Margin Req.</span>
+                            <span class="font-semibold text-rose-600">5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Escrow & Programmable Payments -->
+                <div class="bg-gradient-to-br from-cyan-50 to-sky-50 rounded-2xl p-6 border border-cyan-100 card-hover">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-cyan-500 rounded-xl flex items-center justify-center">
+                            <i data-lucide="lock" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Smart Escrow</h3>
+                            <p class="text-xs text-cyan-600">Programmable Payments</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Conditional payment release based on milestones, time, or external data. Perfect for M&A, real estate, contracts.</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Setup Fee</span>
+                            <span class="font-semibold text-gray-900">$500</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Holding Fee</span>
+                            <span class="font-semibold text-gray-900">0.02%/mo</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Release Fee</span>
+                            <span class="font-semibold text-cyan-600">$50</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Token Ecosystem -->
+            <div class="mt-12 bg-white rounded-2xl p-6 border border-gray-200">
+                <h3 class="font-bold text-gray-900 mb-4 text-center">Wells Fargo Deposit Token Ecosystem</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center p-4 bg-green-50 rounded-xl border border-green-100">
+                        <p class="text-2xl font-bold text-green-600">WFUSD</p>
+                        <p class="text-xs text-gray-500 mt-1">US Dollar Token</p>
+                    </div>
+                    <div class="text-center p-4 bg-amber-50 rounded-xl border border-amber-100">
+                        <p class="text-2xl font-bold text-amber-600">WFGBP</p>
+                        <p class="text-xs text-gray-500 mt-1">British Pound Token</p>
+                    </div>
+                    <div class="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                        <p class="text-2xl font-bold text-blue-600">WFEUR</p>
+                        <p class="text-xs text-gray-500 mt-1">Euro Token</p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 text-center mt-4">1:1 backed by segregated deposits • Fully regulated • Bank-issued</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CFO Business Case -->
+    <section id="business-case" class="py-16 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <p class="text-wf-gold font-medium text-sm mb-2">Executive Summary</p>
+                <h2 class="text-2xl font-bold mb-3">Why This Works for Banks</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">A CFO's guide to blockchain-based deposit token infrastructure</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Left: Key Arguments -->
+                <div class="space-y-6">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="piggy-bank" class="w-5 h-5 text-emerald-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">Deposits Stay on Your Balance Sheet</h4>
+                                <p class="text-sm text-gray-400">Unlike stablecoins (USDC, USDT), WFUSD is a <span class="text-white">bank deposit liability</span>. Funds remain in your custody, earning NIM. You're not sending float to Circle or Tether.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="layers" class="w-5 h-5 text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">New Fee Revenue on Existing Infrastructure</h4>
+                                <p class="text-sm text-gray-400">Tokenization creates <span class="text-white">fee opportunities at every touchpoint</span>: minting (0.03%), FX (0.75%), settlement (£15), custody (0.10%), lending (4-8% APR). Stack revenue on flows you already process.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">Regulatory Moat vs Crypto Native Players</h4>
+                                <p class="text-sm text-gray-400">You already have the <span class="text-white">banking license, KYC infrastructure, and regulatory relationships</span>. DeFi protocols can't offer FDIC-insured deposit tokens. This is your competitive advantage.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="zap" class="w-5 h-5 text-rose-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-white mb-2">40% Cost Reduction vs SWIFT/Correspondent</h4>
+                                <p class="text-sm text-gray-400">Cross-border settlement drops from <span class="text-white">T+2 to T+0</span>. Eliminate nostro pre-funding requirements. Smart contracts replace manual reconciliation. Direct P&L impact.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Financial Model -->
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h4 class="font-semibold text-white mb-6 flex items-center gap-2">
+                        <i data-lucide="calculator" class="w-5 h-5 text-wf-gold"></i>
+                        Illustrative P&L Impact (Year 3)
+                    </h4>
+
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Revenue Streams</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">FX & Settlement Fees</span>
+                                    <span class="font-semibold text-emerald-400">+$18M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Token Mint/Burn Fees</span>
+                                    <span class="font-semibold text-emerald-400">+$4M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Lending Interest Income</span>
+                                    <span class="font-semibold text-emerald-400">+$22M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Float NIM (deposit spread)</span>
+                                    <span class="font-semibold text-emerald-400">+$31M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Custody & Platform Fees</span>
+                                    <span class="font-semibold text-emerald-400">+$8M</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-700">
+
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Cost Savings</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Correspondent Bank Fees</span>
+                                    <span class="font-semibold text-emerald-400">-$12M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Nostro Liquidity Cost</span>
+                                    <span class="font-semibold text-emerald-400">-$8M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Manual Reconciliation</span>
+                                    <span class="font-semibold text-emerald-400">-$3M</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-700">
+
+                        <div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Investment</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Platform Development</span>
+                                    <span class="font-semibold text-rose-400">-$15M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Compliance & Legal</span>
+                                    <span class="font-semibold text-rose-400">-$5M</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-300">Operations (ongoing)</span>
+                                    <span class="font-semibold text-rose-400">-$6M</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-gray-700">
+
+                        <div class="bg-gray-900 rounded-lg p-4">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-white">Net P&L Impact</span>
+                                <span class="text-2xl font-bold text-wf-gold">+$80M</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Assuming $5B AUM on platform</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom: Key Metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-800 rounded-xl p-4 text-center">
+                    <p class="text-2xl font-bold text-white">1.6%</p>
+                    <p class="text-xs text-gray-500">Gross Revenue on AUM</p>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-4 text-center">
+                    <p class="text-2xl font-bold text-white">18 mo</p>
+                    <p class="text-xs text-gray-500">Payback Period</p>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-4 text-center">
+                    <p class="text-2xl font-bold text-white">320%</p>
+                    <p class="text-xs text-gray-500">3-Year ROI</p>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-4 text-center">
+                    <p class="text-2xl font-bold text-white">T+0</p>
+                    <p class="text-xs text-gray-500">Settlement Time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-8">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 bg-wf-red rounded flex items-center justify-center">
+                        <i data-lucide="landmark" class="w-3 h-3 text-white"></i>
+                    </div>
+                    <span class="text-sm text-gray-500">Wells Fargo Digital Asset Services</span>
+                </div>
+                <p class="text-xs text-gray-400">For demonstration purposes only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const CONFIG = {
+            FX_RATE: 1.30,
+            FX_MARKUP_PCT: 0.0075,
+            MINT_FEE_PCT: 0.0003,
+            PEG_BALANCE_CAP: 50000,
+            FPS_FEE: 0.10,
+            SETTLEMENT_FEE_GBP: 15.00
+        };
+
+        const $ = id => document.getElementById(id);
+
+        const formatUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        const formatGBP = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' });
+        const formatWFGBP = v => new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 }).format(v) + ' WFGBP';
+
+        let history = [];
+
+        function calculate(usd) {
+            const effectiveRate = CONFIG.FX_RATE * (1 + CONFIG.FX_MARKUP_PCT);
+            const gbp = usd / effectiveRate;
+            const mintFee = usd * CONFIG.MINT_FEE_PCT;
+            const fxCost = (usd * CONFIG.FX_MARKUP_PCT) / effectiveRate * CONFIG.FX_RATE;
+            const totalCost = mintFee + fxCost + (CONFIG.SETTLEMENT_FEE_GBP * CONFIG.FX_RATE);
+            const netGbp = Math.max(0, gbp - CONFIG.FPS_FEE - CONFIG.SETTLEMENT_FEE_GBP);
+            return { usd, gbp, mintFee, totalCost, netGbp, exceedsPeg: gbp > CONFIG.PEG_BALANCE_CAP };
+        }
+
+        function update() {
+            const usd = parseFloat($('usdInput').value.replace(/[^0-9.]/g, '')) || 0;
+            const r = calculate(usd);
+
+            // Main outputs
+            $('gbpOutput').textContent = formatGBP.format(r.netGbp);
+            $('mintFeeDisplay').textContent = formatUSD.format(r.mintFee);
+            $('totalCost').textContent = formatUSD.format(r.totalCost);
+
+            // Flow steps
+            $('step1Amount').textContent = formatUSD.format(usd);
+            $('step2Amount').textContent = formatGBP.format(r.gbp);
+            $('step3Amount').textContent = formatWFGBP(r.gbp);
+            $('step4Amount').textContent = formatGBP.format(r.netGbp);
+
+            // Mobile flow
+            $('step1AmountMobile').textContent = formatUSD.format(usd);
+            $('step2AmountMobile').textContent = formatGBP.format(r.gbp);
+            $('step3AmountMobile').textContent = formatWFGBP(r.gbp);
+            $('step4AmountMobile').textContent = formatGBP.format(r.netGbp);
+
+            // Summary
+            $('summaryInput').textContent = formatUSD.format(usd).replace('.00', '');
+            $('summaryFees').textContent = formatUSD.format(r.totalCost).replace('.00', '');
+            $('summaryOutput').textContent = formatGBP.format(r.netGbp).replace('.00', '');
+
+            // Liquidity status
+            const status = $('liquidityStatus');
+            const iconWrapper = $('liquidityIconWrapper');
+            const icon = $('liquidityIcon');
+            const text = $('liquidityText');
+            const detail = $('liquidityDetail');
+
+            if (r.exceedsPeg && usd > 0) {
+                status.className = 'rounded-xl p-4 bg-amber-50 border border-amber-200 transition-all';
+                iconWrapper.className = 'w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center';
+                icon.setAttribute('data-lucide', 'alert-triangle');
+                icon.className = 'w-5 h-5 text-amber-600';
+                text.className = 'font-medium text-amber-700';
+                text.textContent = 'Auto-Funding Required';
+                detail.className = 'text-sm text-amber-600';
+                detail.textContent = 'Exceeds £50,000 peg balance';
+            } else {
+                status.className = 'rounded-xl p-4 bg-emerald-50 border border-emerald-100 transition-all';
+                iconWrapper.className = 'w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center';
+                icon.setAttribute('data-lucide', 'check');
+                icon.className = 'w-5 h-5 text-emerald-600';
+                text.className = 'font-medium text-emerald-700';
+                text.textContent = 'Liquidity Available';
+                detail.className = 'text-sm text-emerald-600';
+                detail.textContent = 'Within peg balance limit';
+            }
+            lucide.createIcons();
+        }
+
+        function formatInput(e) {
+            let v = e.target.value.replace(/[^0-9.]/g, '');
+            const parts = v.split('.');
+            if (parts[0]) parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            e.target.value = parts.join('.');
+            update();
+        }
+
+        function saveHistory() {
+            const usd = parseFloat($('usdInput').value.replace(/[^0-9.]/g, '')) || 0;
+            if (!usd) return;
+            const r = calculate(usd);
+            history.unshift({ time: new Date().toLocaleTimeString(), usd, gbp: r.netGbp, warn: r.exceedsPeg });
+            renderHistory();
+        }
+
+        function renderHistory() {
+            $('historyCount').textContent = history.length;
+            if (!history.length) {
+                $('historyList').innerHTML = '<p class="text-sm text-gray-400 text-center py-3">No saved transactions</p>';
+                return;
+            }
+            $('historyList').innerHTML = history.map(h => `
+                <div class="bg-gray-50 rounded-lg p-3 flex items-center justify-between text-sm">
+                    <div>
+                        <span class="font-medium text-gray-900">${formatUSD.format(h.usd)}</span>
+                        <span class="text-gray-400 mx-1">→</span>
+                        <span class="font-medium text-emerald-600">${formatGBP.format(h.gbp)}</span>
+                    </div>
+                    <span class="text-xs text-gray-400">${h.time}</span>
+                </div>
+            `).join('');
+        }
+
+        $('usdInput').addEventListener('input', formatInput);
+        $('saveToHistory').addEventListener('click', saveHistory);
+        $('clearHistory').addEventListener('click', () => { history = []; renderHistory(); });
+
+        lucide.createIcons();
+        update();
+    </script>
+</body>
+</html>
