@@ -75,13 +75,13 @@
     </section>
 
     <!-- Interactive Calculator -->
-    <section id="calculator" class="py-16">
+    <section id="calculator" class="py-16 bg-gradient-to-b from-slate-50/50 to-white">
         <div class="max-w-6xl mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
                 <!-- Input Panel -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-100/60">
                         <h2 class="font-semibold text-gray-900 mb-6">Payment Details</h2>
 
                         <!-- USD Input -->
@@ -93,13 +93,13 @@
                                     type="text"
                                     id="usdInput"
                                     placeholder="100,000"
-                                    class="w-full pl-10 pr-4 py-4 text-2xl font-semibold border border-gray-200 rounded-xl input-focus focus:border-wf-red focus:outline-none transition-all"
+                                    class="w-full pl-10 pr-4 py-4 text-2xl font-semibold border border-gray-100 rounded-xl input-focus focus:border-wf-red/60 focus:outline-none focus:ring-2 focus:ring-wf-red/10 transition-all bg-gray-50/50"
                                 >
                             </div>
                         </div>
 
                         <!-- GBP Output -->
-                        <div class="bg-gray-50 rounded-xl p-5 mb-6">
+                        <div class="bg-gradient-to-br from-slate-50 to-gray-50/50 rounded-xl p-5 mb-6 border border-gray-100/40">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="text-sm text-gray-500">Beneficiary Receives</span>
                                 <span class="text-xs text-gray-400">after all fees</span>
@@ -124,8 +124,8 @@
                                     <span class="text-gray-500">Peg Balance Usage</span>
                                     <span id="liquidityRemaining" class="font-medium text-emerald-600">£50,000 available</span>
                                 </div>
-                                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                                    <div id="liquidityBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div id="liquidityBar" class="h-full bg-emerald-400 rounded-full transition-all duration-300" style="width: 0%"></div>
                                 </div>
                                 <div class="flex justify-between text-xs text-gray-400">
                                     <span>£0</span>
@@ -136,7 +136,7 @@
                     </div>
 
                     <!-- Fee Summary Card -->
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-100/60">
                         <h3 class="font-semibold text-gray-900 mb-4">Fee Summary</h3>
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
@@ -164,7 +164,7 @@
                     </div>
 
                     <!-- Transaction History (Collapsed) -->
-                    <details class="bg-white rounded-2xl shadow-sm border border-gray-100 group">
+                    <details class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100/60 group">
                         <summary class="px-6 py-4 cursor-pointer flex items-center justify-between">
                             <span class="font-medium text-gray-700 flex items-center gap-2">
                                 <i data-lucide="history" class="w-4 h-4 text-gray-400"></i>
@@ -191,53 +191,53 @@
 
                 <!-- Flow Visualization -->
                 <div class="lg:col-span-3">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-100/60 h-full">
                         <h2 class="font-semibold text-gray-900 mb-6">Settlement Flow</h2>
 
                         <!-- Horizontal Flow for Desktop -->
                         <div class="hidden lg:block">
                             <div class="flex items-stretch gap-3">
                                 <!-- Step 1: Originator -->
-                                <div class="flex-1 bg-gray-50 rounded-xl p-4 relative">
+                                <div class="flex-1 bg-slate-50/70 rounded-xl p-4 relative border border-slate-100/50">
                                     <div class="flex items-center gap-2 mb-3">
-                                        <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">1</div>
-                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Originator</span>
+                                        <div class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold text-slate-600">1</div>
+                                        <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">Originator</span>
                                     </div>
-                                    <p class="text-xs text-gray-400 mb-2">Debit USD</p>
-                                    <p id="step1Amount" class="text-lg font-bold text-gray-900">$0.00</p>
-                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    <p class="text-xs text-slate-400 mb-2">Debit USD</p>
+                                    <p id="step1Amount" class="text-lg font-bold text-slate-700">$0.00</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-slate-100 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-slate-300"></i>
                                     </div>
                                 </div>
 
                                 <!-- Step 2: Treasury -->
-                                <div class="flex-1 bg-red-50 rounded-xl p-4 relative border border-red-100">
+                                <div class="flex-1 bg-rose-50/50 rounded-xl p-4 relative border border-rose-100/50">
                                     <div class="flex items-center gap-2 mb-3">
-                                        <div class="w-6 h-6 bg-wf-red rounded-full flex items-center justify-center text-xs font-bold text-white">2</div>
-                                        <span class="text-xs font-medium text-red-600 uppercase tracking-wide">Treasury</span>
+                                        <div class="w-6 h-6 bg-rose-400 rounded-full flex items-center justify-center text-xs font-bold text-white">2</div>
+                                        <span class="text-xs font-medium text-rose-500 uppercase tracking-wide">Treasury</span>
                                     </div>
-                                    <p class="text-xs text-red-400 mb-2">Convert to GBP</p>
-                                    <p id="step2Amount" class="text-lg font-bold text-gray-900">£0.00</p>
-                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    <p class="text-xs text-rose-400 mb-2">Convert to GBP</p>
+                                    <p id="step2Amount" class="text-lg font-bold text-slate-700">£0.00</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-slate-100 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-slate-300"></i>
                                     </div>
                                 </div>
 
                                 <!-- Step 3: Blockchain -->
-                                <div class="flex-1 bg-amber-50 rounded-xl p-4 relative border border-amber-100">
+                                <div class="flex-1 bg-amber-50/50 rounded-xl p-4 relative border border-amber-100/50">
                                     <div class="flex items-center gap-2 mb-3">
-                                        <div class="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-xs font-bold text-white">3</div>
-                                        <span class="text-xs font-medium text-amber-600 uppercase tracking-wide">Blockchain</span>
+                                        <div class="w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center text-xs font-bold text-white">3</div>
+                                        <span class="text-xs font-medium text-amber-500 uppercase tracking-wide">Blockchain</span>
                                     </div>
-                                    <p class="text-xs text-amber-500 mb-2">Mint → Burn WFGBP</p>
-                                    <p id="step3Amount" class="text-lg font-bold text-gray-900">0 WFGBP</p>
-                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                                        <i data-lucide="arrow-right" class="w-3 h-3 text-gray-400"></i>
+                                    <p class="text-xs text-amber-400 mb-2">Mint → Burn WFGBP</p>
+                                    <p id="step3Amount" class="text-lg font-bold text-slate-700">0 WFGBP</p>
+                                    <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-10 w-6 h-6 bg-white border border-slate-100 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-right" class="w-3 h-3 text-slate-300"></i>
                                     </div>
                                 </div>
 
                                 <!-- Step 4: Beneficiary -->
-                                <div class="flex-1 bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                <div class="flex-1 bg-emerald-50/50 rounded-xl p-4 border border-emerald-100/50">
                                     <div class="flex items-center gap-2 mb-3">
                                         <div class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-xs font-bold text-white">4</div>
                                         <span class="text-xs font-medium text-emerald-600 uppercase tracking-wide">Beneficiary</span>
@@ -250,45 +250,45 @@
 
                         <!-- Vertical Flow for Mobile -->
                         <div class="lg:hidden space-y-3">
-                            <div class="bg-gray-50 rounded-xl p-4 flex items-center justify-between">
+                            <div class="bg-slate-50/70 rounded-xl p-4 flex items-center justify-between border border-slate-100/50">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm font-bold text-gray-600">1</div>
+                                    <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-sm font-bold text-slate-600">1</div>
                                     <div>
-                                        <p class="text-xs text-gray-500">Originator Debit</p>
-                                        <p id="step1AmountMobile" class="font-bold text-gray-900">$0.00</p>
+                                        <p class="text-xs text-slate-500">Originator Debit</p>
+                                        <p id="step1AmountMobile" class="font-bold text-slate-700">$0.00</p>
                                     </div>
                                 </div>
-                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-slate-300"></i>
                             </div>
-                            <div class="bg-red-50 rounded-xl p-4 flex items-center justify-between border border-red-100">
+                            <div class="bg-rose-50/50 rounded-xl p-4 flex items-center justify-between border border-rose-100/50">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 bg-wf-red rounded-full flex items-center justify-center text-sm font-bold text-white">2</div>
+                                    <div class="w-8 h-8 bg-rose-400 rounded-full flex items-center justify-center text-sm font-bold text-white">2</div>
                                     <div>
-                                        <p class="text-xs text-red-500">Treasury Convert</p>
-                                        <p id="step2AmountMobile" class="font-bold text-gray-900">£0.00</p>
+                                        <p class="text-xs text-rose-400">Treasury Convert</p>
+                                        <p id="step2AmountMobile" class="font-bold text-slate-700">£0.00</p>
                                     </div>
                                 </div>
-                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-slate-300"></i>
                             </div>
-                            <div class="bg-amber-50 rounded-xl p-4 flex items-center justify-between border border-amber-100">
+                            <div class="bg-amber-50/50 rounded-xl p-4 flex items-center justify-between border border-amber-100/50">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-sm font-bold text-white">3</div>
+                                    <div class="w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center text-sm font-bold text-white">3</div>
                                     <div>
-                                        <p class="text-xs text-amber-500">Mint & Burn WFGBP</p>
-                                        <p id="step3AmountMobile" class="font-bold text-gray-900">0 WFGBP</p>
+                                        <p class="text-xs text-amber-400">Mint & Burn WFGBP</p>
+                                        <p id="step3AmountMobile" class="font-bold text-slate-700">0 WFGBP</p>
                                     </div>
                                 </div>
-                                <i data-lucide="arrow-down" class="w-4 h-4 text-gray-300"></i>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-slate-300"></i>
                             </div>
-                            <div class="bg-emerald-50 rounded-xl p-4 flex items-center justify-between border border-emerald-100">
+                            <div class="bg-emerald-50/50 rounded-xl p-4 flex items-center justify-between border border-emerald-100/50">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-sm font-bold text-white">4</div>
+                                    <div class="w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center text-sm font-bold text-white">4</div>
                                     <div>
-                                        <p class="text-xs text-emerald-500">Beneficiary Receives</p>
-                                        <p id="step4AmountMobile" class="font-bold text-emerald-600">£0.00</p>
+                                        <p class="text-xs text-emerald-400">Beneficiary Receives</p>
+                                        <p id="step4AmountMobile" class="font-bold text-emerald-500">£0.00</p>
                                     </div>
                                 </div>
-                                <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
                             </div>
                         </div>
 
@@ -329,7 +329,7 @@
                         <div class="w-3 h-3 rounded-full bg-red-500"></div>
                         <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                         <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span class="text-gray-400 text-sm ml-4 font-mono">LiquidityPool.sol</span>
+                        <span class="text-gray-400 text-sm ml-4 font-mono">liquidity_pool.rs</span>
                     </div>
                     <div class="flex items-center gap-4">
                         <button id="resetDemo" class="text-xs text-gray-400 hover:text-white transition-colors">Reset</button>
@@ -410,28 +410,32 @@
                         </h3>
 
                         <div class="bg-gray-900 rounded-xl p-4 font-mono text-sm overflow-x-auto">
-                            <pre class="text-gray-300 leading-relaxed"><code><span class="text-purple-400">function</span> <span class="text-yellow-300">processSettlement</span>(<span class="text-blue-300">amount</span>) {
+                            <pre class="text-gray-300 leading-relaxed"><code><span class="text-purple-400">pub fn</span> <span class="text-yellow-300">process_settlement</span>(
+  deps: DepsMut, amount: <span class="text-blue-300">Uint128</span>
+) -> Result&lt;Response, ContractError&gt; {
   <span class="text-gray-500">// Check if exceeds peg balance</span>
-  <span id="codeLine1" class="transition-all"><span class="text-purple-400">if</span> (amount > pegBalance) {</span>
+  <span id="codeLine1" class="transition-all"><span class="text-purple-400">if</span> amount > state.peg_balance {</span>
 
     <span id="codeLine2" class="transition-all">  <span class="text-gray-500">// Calculate shortfall</span>
-    shortfall = amount - pegBalance;</span>
+    <span class="text-purple-400">let</span> shortfall = amount - state.peg_balance;</span>
 
     <span id="codeLine3" class="transition-all">  <span class="text-gray-500">// Emit auto-funding event</span>
-    <span class="text-green-400">emit</span> <span class="text-yellow-300">AutoFundingTriggered</span>(shortfall);</span>
+    <span class="text-purple-400">let</span> event = Event::<span class="text-yellow-300">new</span>(<span class="text-green-400">"auto_funding"</span>)
+      .add_attribute(<span class="text-green-400">"amount"</span>, shortfall);</span>
 
     <span id="codeLine4" class="transition-all">  <span class="text-gray-500">// Request treasury injection</span>
-    treasury.<span class="text-yellow-300">injectLiquidity</span>(shortfall);</span>
+    treasury::<span class="text-yellow-300">inject_liquidity</span>(deps, shortfall)?;</span>
 
     <span id="codeLine5" class="transition-all">  <span class="text-gray-500">// Update peg balance</span>
-    pegBalance += shortfall;</span>
+    state.peg_balance += shortfall;</span>
   }
 
   <span id="codeLine6" class="transition-all"><span class="text-gray-500">// Execute settlement</span>
-  <span class="text-yellow-300">mint</span>(beneficiary, amount);
-  <span class="text-yellow-300">burn</span>(treasury, amount);</span>
+  <span class="text-yellow-300">mint</span>(deps, &beneficiary, amount)?;
+  <span class="text-yellow-300">burn</span>(deps, &treasury, amount)?;</span>
 
-  <span id="codeLine7" class="transition-all"><span class="text-green-400">emit</span> <span class="text-yellow-300">SettlementComplete</span>(amount);</span>
+  <span id="codeLine7" class="transition-all">Ok(Response::<span class="text-yellow-300">new</span>()
+    .add_event(Event::<span class="text-yellow-300">new</span>(<span class="text-green-400">"settlement"</span>)))</span>
 }</code></pre>
                         </div>
 
@@ -1107,7 +1111,7 @@
             $('fundingAmount').textContent = '+£25,000';
             $('statusFunding').classList.remove('opacity-50');
             $('statusFunding').classList.add('ring-2', 'ring-emerald-400');
-            logEvent('[EVENT] AutoFundingTriggered(25,000)', 'success');
+            logEvent('[EVENT] auto_funding { amount: 25,000 }', 'success');
 
             // Step 5: Treasury injection
             await delay(800);
@@ -1150,7 +1154,7 @@
             $('txStatus').textContent = 'Settlement complete!';
             $('txCard').style.borderColor = '#10b981';
             $('txCard').style.backgroundColor = '#ecfdf5';
-            logEvent('[EVENT] SettlementComplete(75,000)', 'success');
+            logEvent('[EVENT] settlement { amount: 75,000 }', 'success');
             logEvent('[DONE] Transaction processed successfully!', 'success');
 
             await delay(500);
