@@ -45,11 +45,12 @@
                     </div>
                     <span class="font-semibold text-gray-900">Wells Fargo <span class="text-gray-400 font-normal">Digital Assets</span></span>
                 </div>
-                <nav class="hidden md:flex items-center gap-8 text-sm text-gray-600">
+                <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
                     <a href="#calculator" class="hover:text-wf-red transition-colors">Calculator</a>
                     <a href="#rebalancing" class="hover:text-wf-red transition-colors">Smart Contract</a>
                     <a href="#products" class="hover:text-wf-red transition-colors">Products</a>
                     <a href="#network-strategies" class="hover:text-wf-red transition-colors">Networks</a>
+                    <a href="#primitives" class="hover:text-wf-red transition-colors">Primitives</a>
                     <a href="#business-case" class="hover:text-wf-red transition-colors">Economics</a>
                 </nav>
             </div>
@@ -1105,6 +1106,373 @@
                         <p class="text-xs text-gray-400">Developer platform</p>
                         <p class="text-sm text-emerald-400 mt-2">$500/mo + usage</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cloud-Native Financial Primitives -->
+    <section id="primitives" class="py-16 bg-white border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <p class="text-indigo-600 font-medium text-sm mb-2">Paradigm Shift</p>
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">From Legacy Datacenter to Cloud-Native Banking</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Banks today price like 1990s datacenters — bulk fees for monolithic products. Blockchain enables AWS-style consumption pricing for financial primitives.</p>
+            </div>
+
+            <!-- Before/After Comparison -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Legacy Model -->
+                <div class="bg-gray-100 rounded-2xl p-6 border-2 border-gray-300 relative">
+                    <div class="absolute -top-3 left-6 bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full">LEGACY</div>
+                    <div class="flex items-center gap-3 mb-6 mt-2">
+                        <div class="w-12 h-12 bg-gray-400 rounded-xl flex items-center justify-center">
+                            <i data-lucide="server" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-700 text-lg">Datacenter Banking</h3>
+                            <p class="text-xs text-gray-500">Monolithic • Bulk Pricing • Inflexible</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-3 border border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-700 text-sm">Wire Transfer</p>
+                                    <p class="text-xs text-gray-400">Any amount, same price</p>
+                                </div>
+                                <span class="text-lg font-bold text-gray-600">$25-50</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-700 text-sm">FX Transaction</p>
+                                    <p class="text-xs text-gray-400">Hidden spread + flat fee</p>
+                                </div>
+                                <span class="text-lg font-bold text-gray-600">1-3%</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-700 text-sm">Letter of Credit</p>
+                                    <p class="text-xs text-gray-400">Manual, paper-based</p>
+                                </div>
+                                <span class="text-lg font-bold text-gray-600">$500+</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-700 text-sm">Account Maintenance</p>
+                                    <p class="text-xs text-gray-400">Monthly flat fee</p>
+                                </div>
+                                <span class="text-lg font-bold text-gray-600">$15-30/mo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-300">
+                        <p class="text-xs text-gray-500 italic">❌ No usage visibility • ❌ Cross-subsidized pricing • ❌ T+1/T+2 settlement</p>
+                    </div>
+                </div>
+
+                <!-- Cloud-Native Model -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 border-2 border-indigo-300 relative">
+                    <div class="absolute -top-3 left-6 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">CLOUD-NATIVE</div>
+                    <div class="flex items-center gap-3 mb-6 mt-2">
+                        <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center">
+                            <i data-lucide="cloud" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Primitive-Based Banking</h3>
+                            <p class="text-xs text-indigo-600">Composable • Pay-per-Use • Real-time</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-lg p-3 border border-indigo-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-900 text-sm">Transfer()</p>
+                                    <p class="text-xs text-gray-400">Per-byte token movement</p>
+                                </div>
+                                <span class="text-lg font-bold text-indigo-600">$0.001/tx</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-indigo-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-900 text-sm">Swap()</p>
+                                    <p class="text-xs text-gray-400">Atomic FX conversion</p>
+                                </div>
+                                <span class="text-lg font-bold text-indigo-600">0.25%</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-indigo-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-900 text-sm">Lock()</p>
+                                    <p class="text-xs text-gray-400">Per-second escrow</p>
+                                </div>
+                                <span class="text-lg font-bold text-indigo-600">0.001%/hr</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 border border-indigo-200">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold text-gray-900 text-sm">Hold()</p>
+                                    <p class="text-xs text-gray-400">Per-token-day storage</p>
+                                </div>
+                                <span class="text-lg font-bold text-indigo-600">Free*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-indigo-200">
+                        <p class="text-xs text-indigo-600 italic">✓ Full transparency • ✓ Usage-based • ✓ T+0 settlement • *Bank earns NIM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Primitives Catalog -->
+            <div class="mb-12">
+                <h3 class="font-bold text-gray-900 text-lg mb-6 text-center">Financial Primitives Catalog</h3>
+                <p class="text-sm text-gray-500 text-center mb-6">Like AWS services, each primitive has transparent, consumption-based pricing</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Mint -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-emerald-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Mint()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Create deposit tokens</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Per mint</span>
+                                <span class="font-semibold text-emerald-600">0.02%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Min fee</span>
+                                <span class="font-semibold text-gray-600">$0.10</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Burn -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-rose-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-rose-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="minus-circle" class="w-5 h-5 text-rose-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Burn()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Redeem to fiat</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Per burn</span>
+                                <span class="font-semibold text-rose-600">0.03%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Min fee</span>
+                                <span class="font-semibold text-gray-600">$1.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transfer -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="send" class="w-5 h-5 text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Transfer()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Move tokens P2P</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Internal</span>
+                                <span class="font-semibold text-blue-600">Free</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">External</span>
+                                <span class="font-semibold text-gray-600">$0.05</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Swap -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="repeat" class="w-5 h-5 text-purple-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Swap()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Atomic FX conversion</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Spread</span>
+                                <span class="font-semibold text-purple-600">0.25%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Slippage</span>
+                                <span class="font-semibold text-gray-600">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lock -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-amber-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="lock" class="w-5 h-5 text-amber-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Lock()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Time-bound escrow</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Per hour</span>
+                                <span class="font-semibold text-amber-600">0.001%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Release</span>
+                                <span class="font-semibold text-gray-600">$0.50</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yield -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-teal-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Yield()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Earn on deposits</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Client APY</span>
+                                <span class="font-semibold text-teal-600">4.5%</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Bank NIM</span>
+                                <span class="font-semibold text-gray-600">+85bps</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comply -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-slate-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-slate-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Comply()</h4>
+                        <p class="text-xs text-gray-400 mb-2">KYC/AML gate</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Per check</span>
+                                <span class="font-semibold text-slate-600">$2.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Monitoring</span>
+                                <span class="font-semibold text-gray-600">$0.10/tx</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settle -->
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mb-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-indigo-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Settle()</h4>
+                        <p class="text-xs text-gray-400 mb-2">Final settlement</p>
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">On-chain</span>
+                                <span class="font-semibold text-indigo-600">$0.05</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500">Cross-chain</span>
+                                <span class="font-semibold text-gray-600">$0.25</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Model Comparison -->
+            <div class="bg-gradient-to-r from-gray-900 to-indigo-900 rounded-2xl p-6 text-white">
+                <h3 class="font-bold text-lg mb-6 text-center">Pricing Model: Legacy vs Cloud-Native</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-white/20">
+                                <th class="text-left py-3 px-4 text-gray-300 font-medium">Use Case</th>
+                                <th class="text-center py-3 px-4 text-gray-400">Legacy Bank</th>
+                                <th class="text-center py-3 px-4 text-indigo-300">Cloud-Native</th>
+                                <th class="text-center py-3 px-4 text-emerald-300">Savings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-white/10">
+                                <td class="py-3 px-4">$10,000 wire transfer</td>
+                                <td class="text-center py-3 px-4 text-gray-400">$35.00</td>
+                                <td class="text-center py-3 px-4 text-white font-semibold">$0.05</td>
+                                <td class="text-center py-3 px-4 text-emerald-400 font-bold">99.8%</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-3 px-4">$100K FX conversion</td>
+                                <td class="text-center py-3 px-4 text-gray-400">$1,500 (1.5%)</td>
+                                <td class="text-center py-3 px-4 text-white font-semibold">$270 (0.27%)</td>
+                                <td class="text-center py-3 px-4 text-emerald-400 font-bold">82%</td>
+                            </tr>
+                            <tr class="border-b border-white/10">
+                                <td class="py-3 px-4">30-day escrow ($50K)</td>
+                                <td class="text-center py-3 px-4 text-gray-400">$500 flat</td>
+                                <td class="text-center py-3 px-4 text-white font-semibold">$36 (0.001%×720hr)</td>
+                                <td class="text-center py-3 px-4 text-emerald-400 font-bold">93%</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4">Trade finance LC ($1M)</td>
+                                <td class="text-center py-3 px-4 text-gray-400">$2,500</td>
+                                <td class="text-center py-3 px-4 text-white font-semibold">$520</td>
+                                <td class="text-center py-3 px-4 text-emerald-400 font-bold">79%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <p class="text-xs text-gray-400">
+                        <span class="text-white font-semibold">Key Insight:</span>
+                        Cloud-native primitives unbundle the "wire transfer" into Transfer() + Comply() + Settle() — each priced at true marginal cost.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Revenue Model -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="activity" class="w-5 h-5 text-blue-600"></i>
+                        <h4 class="font-bold text-gray-900">Usage-Based</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Pay-per-primitive like AWS Lambda. No minimums, no commitments.</p>
+                    <p class="text-xs text-blue-600 font-medium">Perfect for: Startups, variable workloads</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-5 border border-purple-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="calendar" class="w-5 h-5 text-purple-600"></i>
+                        <h4 class="font-bold text-gray-900">Reserved Capacity</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Commit to volume for 20-40% discount. Like EC2 Reserved Instances.</p>
+                    <p class="text-xs text-purple-600 font-medium">Perfect for: Enterprises, predictable flows</p>
+                </div>
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-200">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="zap" class="w-5 h-5 text-amber-600"></i>
+                        <h4 class="font-bold text-gray-900">Spot Liquidity</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Dynamic pricing based on pool utilization. Arbitrage opportunities.</p>
+                    <p class="text-xs text-amber-600 font-medium">Perfect for: Traders, market makers</p>
                 </div>
             </div>
         </div>
