@@ -144,7 +144,7 @@
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-gray-500">FX Rate (incl. 0.25% markup)</span>
-                                <span class="text-gray-900">1.3033</span>
+                                <span id="effectiveFxRate" class="text-gray-900">1.3033</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Mint Fee (0.02%)</span>
@@ -326,6 +326,127 @@
                             <div class="text-center">
                                 <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Output</p>
                                 <p id="summaryOutput" class="text-lg font-bold text-emerald-600">£0</p>
+                            </div>
+                        </div>
+
+                        <!-- Cost Breakdown by Party -->
+                        <div class="mt-6 pt-6 border-t border-gray-100">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                                <i data-lucide="pie-chart" class="w-4 h-4 text-gray-400"></i>
+                                Cost Breakdown by Party
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Customer Costs -->
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 bg-slate-600 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="user" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900 text-sm">Customer</p>
+                                            <p class="text-xs text-gray-400">Originator pays</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">FX Spread (0.25%)</span>
+                                            <span id="custFxCost" class="text-gray-700">$0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Mint Fee (0.02%)</span>
+                                            <span id="custMintCost" class="text-gray-700">$0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Settlement</span>
+                                            <span class="text-gray-700">£3.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Network</span>
+                                            <span class="text-gray-700">£0.05</span>
+                                        </div>
+                                        <hr class="border-slate-200">
+                                        <div class="flex justify-between font-semibold">
+                                            <span class="text-gray-700">Total Cost</span>
+                                            <span id="custTotalCost" class="text-slate-700">$0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wells Fargo Revenue -->
+                                <div class="bg-wf-red/5 rounded-xl p-4 border border-wf-red/20">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 bg-wf-red rounded-lg flex items-center justify-center">
+                                            <i data-lucide="landmark" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900 text-sm">Wells Fargo</p>
+                                            <p class="text-xs text-gray-400">Revenue earned</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">FX Spread</span>
+                                            <span id="wfFxRevenue" class="text-emerald-600">+$0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Mint Fee</span>
+                                            <span id="wfMintRevenue" class="text-emerald-600">+$0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Settlement Fee</span>
+                                            <span class="text-emerald-600">+£3.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Network Fee</span>
+                                            <span class="text-emerald-600">+£0.05</span>
+                                        </div>
+                                        <hr class="border-wf-red/20">
+                                        <div class="flex justify-between font-semibold">
+                                            <span class="text-gray-700">Total Revenue</span>
+                                            <span id="wfTotalRevenue" class="text-emerald-600">+$0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Partner Bank -->
+                                <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <div class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="building-2" class="w-4 h-4 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900 text-sm">Partner Bank</p>
+                                            <p class="text-xs text-gray-400">Beneficiary's bank (HSBC)</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">FPS Receiving</span>
+                                            <span class="text-gray-400">£0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Correspondent Fee</span>
+                                            <span class="text-gray-400">£0.00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">SWIFT Charges</span>
+                                            <span class="text-gray-400 line-through">£15-25</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-500">Processing</span>
+                                            <span class="text-gray-400">£0.00</span>
+                                        </div>
+                                        <hr class="border-emerald-200">
+                                        <div class="flex justify-between font-semibold">
+                                            <span class="text-gray-700">Total Cost</span>
+                                            <span class="text-emerald-600">£0.00</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                                        <i data-lucide="check-circle" class="w-3 h-3"></i>
+                                        Direct settlement eliminates fees
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -909,9 +1030,33 @@
             const gbp = usd / effectiveRate;
             const mintFee = usd * CONFIG.MINT_FEE_PCT;
             const fxCost = (usd * CONFIG.FX_MARKUP_PCT) / effectiveRate * CONFIG.FX_RATE;
-            const totalCost = mintFee + fxCost + (CONFIG.SETTLEMENT_FEE_GBP * CONFIG.FX_RATE);
+            const settlementFeeUsd = CONFIG.SETTLEMENT_FEE_GBP * CONFIG.FX_RATE;
+            const networkFeeUsd = CONFIG.FPS_FEE * CONFIG.FX_RATE;
+            const totalCost = mintFee + fxCost + settlementFeeUsd + networkFeeUsd;
             const netGbp = Math.max(0, gbp - CONFIG.FPS_FEE - CONFIG.SETTLEMENT_FEE_GBP);
-            return { usd, gbp, mintFee, totalCost, netGbp, exceedsPeg: gbp > CONFIG.PEG_BALANCE_CAP };
+
+            // Party-specific breakdown
+            const customerCosts = {
+                fxSpread: fxCost,
+                mintFee: mintFee,
+                settlement: CONFIG.SETTLEMENT_FEE_GBP,
+                network: CONFIG.FPS_FEE,
+                totalUsd: totalCost
+            };
+
+            const wfRevenue = {
+                fxSpread: fxCost,
+                mintFee: mintFee,
+                settlement: CONFIG.SETTLEMENT_FEE_GBP,
+                network: CONFIG.FPS_FEE,
+                totalUsd: totalCost
+            };
+
+            return {
+                usd, gbp, mintFee, fxCost, totalCost, netGbp,
+                exceedsPeg: gbp > CONFIG.PEG_BALANCE_CAP,
+                customerCosts, wfRevenue
+            };
         }
 
         function update() {
@@ -922,6 +1067,10 @@
             $('gbpOutput').textContent = formatGBP.format(r.netGbp);
             $('mintFeeDisplay').textContent = formatUSD.format(r.mintFee);
             $('totalCost').textContent = formatUSD.format(r.totalCost);
+
+            // Display effective FX rate
+            const effectiveRate = CONFIG.FX_RATE * (1 + CONFIG.FX_MARKUP_PCT);
+            $('effectiveFxRate').textContent = effectiveRate.toFixed(4);
 
             // Flow steps
             $('step1Amount').textContent = formatUSD.format(usd);
@@ -982,6 +1131,16 @@
                 remaining.className = 'font-medium text-emerald-600';
                 remaining.textContent = formatGBP.format(availableAmount) + ' available';
             }
+
+            // Update party cost breakdown
+            $('custFxCost').textContent = formatUSD.format(r.fxCost);
+            $('custMintCost').textContent = formatUSD.format(r.mintFee);
+            $('custTotalCost').textContent = formatUSD.format(r.totalCost);
+
+            $('wfFxRevenue').textContent = '+' + formatUSD.format(r.fxCost);
+            $('wfMintRevenue').textContent = '+' + formatUSD.format(r.mintFee);
+            $('wfTotalRevenue').textContent = '+' + formatUSD.format(r.totalCost);
+
             lucide.createIcons();
         }
 
