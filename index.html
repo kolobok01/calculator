@@ -143,8 +143,8 @@
                         </div>
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-gray-500">FX Rate (incl. 0.25% markup)</span>
-                                <span id="effectiveFxRate" class="text-gray-900">1.3033</span>
+                                <span class="text-gray-500">FX Markup (0.25%)</span>
+                                <span id="fxMarkupCost" class="text-gray-900">$0.00</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Mint Fee (0.02%)</span>
@@ -348,8 +348,18 @@
                                         </div>
                                     </div>
                                     <div class="space-y-2 text-xs">
+                                        <!-- FX Conversion -->
+                                        <div class="bg-white rounded-lg p-2 border border-slate-200 mb-2">
+                                            <p class="text-gray-400 text-[10px] uppercase tracking-wide mb-1">FX Conversion</p>
+                                            <div class="flex items-center justify-between">
+                                                <span id="custFxInput" class="font-semibold text-gray-800">$0.00</span>
+                                                <span class="text-gray-400 mx-1">→</span>
+                                                <span id="custFxOutput" class="font-semibold text-gray-800">£0.00</span>
+                                            </div>
+                                            <p class="text-[10px] text-gray-400 mt-1">Rate: <span id="custFxRateDisplay">1.3033</span></p>
+                                        </div>
                                         <div class="flex justify-between">
-                                            <span class="text-gray-500">FX Spread (0.25%)</span>
+                                            <span class="text-gray-500">FX Markup (0.25%)</span>
                                             <span id="custFxCost" class="text-gray-700">$0.00</span>
                                         </div>
                                         <div class="flex justify-between">
@@ -366,7 +376,7 @@
                                         </div>
                                         <hr class="border-slate-200">
                                         <div class="flex justify-between font-semibold">
-                                            <span class="text-gray-700">Total Cost</span>
+                                            <span class="text-gray-700">Total Fees</span>
                                             <span id="custTotalCost" class="text-slate-700">$0.00</span>
                                         </div>
                                     </div>
@@ -384,12 +394,22 @@
                                         </div>
                                     </div>
                                     <div class="space-y-2 text-xs">
+                                        <!-- FX Processing -->
+                                        <div class="bg-white rounded-lg p-2 border border-wf-red/10 mb-2">
+                                            <p class="text-gray-400 text-[10px] uppercase tracking-wide mb-1">FX Processing</p>
+                                            <div class="flex items-center justify-between text-[10px]">
+                                                <span class="text-gray-500">Base Rate: 1.3000</span>
+                                                <span class="text-gray-500">→</span>
+                                                <span class="text-gray-500">Client Rate: <span id="wfClientRate">1.3033</span></span>
+                                            </div>
+                                            <p class="text-emerald-600 font-medium mt-1">Spread captured: <span id="wfFxSpreadPct">0.25%</span></p>
+                                        </div>
                                         <div class="flex justify-between">
-                                            <span class="text-gray-500">FX Spread</span>
+                                            <span class="text-gray-500">FX Markup Revenue</span>
                                             <span id="wfFxRevenue" class="text-emerald-600">+$0.00</span>
                                         </div>
                                         <div class="flex justify-between">
-                                            <span class="text-gray-500">Mint Fee</span>
+                                            <span class="text-gray-500">Mint Fee Revenue</span>
                                             <span id="wfMintRevenue" class="text-emerald-600">+$0.00</span>
                                         </div>
                                         <div class="flex justify-between">
@@ -1068,9 +1088,11 @@
             $('mintFeeDisplay').textContent = formatUSD.format(r.mintFee);
             $('totalCost').textContent = formatUSD.format(r.totalCost);
 
-            // Display effective FX rate
+            // Display FX markup as dollar value
+            $('fxMarkupCost').textContent = formatUSD.format(r.fxCost);
+
+            // Calculate effective rate for display
             const effectiveRate = CONFIG.FX_RATE * (1 + CONFIG.FX_MARKUP_PCT);
-            $('effectiveFxRate').textContent = effectiveRate.toFixed(4);
 
             // Flow steps
             $('step1Amount').textContent = formatUSD.format(usd);
@@ -1133,10 +1155,16 @@
             }
 
             // Update party cost breakdown
+            // Customer FX conversion display
+            $('custFxInput').textContent = formatUSD.format(usd);
+            $('custFxOutput').textContent = formatGBP.format(r.gbp);
+            $('custFxRateDisplay').textContent = effectiveRate.toFixed(4);
             $('custFxCost').textContent = formatUSD.format(r.fxCost);
             $('custMintCost').textContent = formatUSD.format(r.mintFee);
             $('custTotalCost').textContent = formatUSD.format(r.totalCost);
 
+            // Wells Fargo FX display
+            $('wfClientRate').textContent = effectiveRate.toFixed(4);
             $('wfFxRevenue').textContent = '+' + formatUSD.format(r.fxCost);
             $('wfMintRevenue').textContent = '+' + formatUSD.format(r.mintFee);
             $('wfTotalRevenue').textContent = '+' + formatUSD.format(r.totalCost);
