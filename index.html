@@ -108,13 +108,27 @@
 
                         <!-- Liquidity Status -->
                         <div id="liquidityStatus" class="rounded-xl p-4 bg-emerald-50 border border-emerald-100 transition-all">
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-3 mb-3">
                                 <div id="liquidityIconWrapper" class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
                                     <i data-lucide="check" id="liquidityIcon" class="w-5 h-5 text-emerald-600"></i>
                                 </div>
                                 <div>
                                     <p id="liquidityText" class="font-medium text-emerald-700">Liquidity Available</p>
                                     <p id="liquidityDetail" class="text-sm text-emerald-600">Within peg balance limit</p>
+                                </div>
+                            </div>
+                            <!-- Liquidity Meter -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-gray-500">Peg Balance Usage</span>
+                                    <span id="liquidityRemaining" class="font-medium text-emerald-600">£50,000 available</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div id="liquidityBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>£0</span>
+                                    <span>£50,000 cap</span>
                                 </div>
                             </div>
                         </div>
@@ -746,6 +760,16 @@
             const icon = $('liquidityIcon');
             const text = $('liquidityText');
             const detail = $('liquidityDetail');
+            const bar = $('liquidityBar');
+            const remaining = $('liquidityRemaining');
+
+            // Calculate liquidity usage
+            const pegCap = CONFIG.PEG_BALANCE_CAP;
+            const usagePercent = Math.min((r.gbp / pegCap) * 100, 100);
+            const availableAmount = Math.max(pegCap - r.gbp, 0);
+
+            // Update bar
+            bar.style.width = usagePercent + '%';
 
             if (r.exceedsPeg && usd > 0) {
                 status.className = 'rounded-xl p-4 bg-amber-50 border border-amber-200 transition-all';
@@ -756,6 +780,9 @@
                 text.textContent = 'Auto-Funding Required';
                 detail.className = 'text-sm text-amber-600';
                 detail.textContent = 'Exceeds £50,000 peg balance';
+                bar.className = 'h-full bg-amber-500 rounded-full transition-all duration-300';
+                remaining.className = 'font-medium text-amber-600';
+                remaining.textContent = formatGBP.format(r.gbp - pegCap) + ' over limit';
             } else {
                 status.className = 'rounded-xl p-4 bg-emerald-50 border border-emerald-100 transition-all';
                 iconWrapper.className = 'w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center';
@@ -764,7 +791,10 @@
                 text.className = 'font-medium text-emerald-700';
                 text.textContent = 'Liquidity Available';
                 detail.className = 'text-sm text-emerald-600';
-                detail.textContent = 'Within peg balance limit';
+                detail.textContent = usd > 0 ? formatGBP.format(r.gbp) + ' of £50,000 used' : 'Within peg balance limit';
+                bar.className = 'h-full bg-emerald-500 rounded-full transition-all duration-300';
+                remaining.className = 'font-medium text-emerald-600';
+                remaining.textContent = formatGBP.format(availableAmount) + ' available';
             }
             lucide.createIcons();
         }
