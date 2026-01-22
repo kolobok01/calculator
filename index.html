@@ -47,6 +47,7 @@
                 </div>
                 <nav class="hidden md:flex items-center gap-8 text-sm text-gray-600">
                     <a href="#calculator" class="hover:text-wf-red transition-colors">Calculator</a>
+                    <a href="#rebalancing" class="hover:text-wf-red transition-colors">Smart Contract</a>
                     <a href="#products" class="hover:text-wf-red transition-colors">Products</a>
                     <a href="#business-case" class="hover:text-wf-red transition-colors">Economics</a>
                 </nav>
@@ -304,6 +305,165 @@
                             <div class="text-center">
                                 <p class="text-xs text-gray-400 uppercase tracking-wide mb-1">Output</p>
                                 <p id="summaryOutput" class="text-lg font-bold text-emerald-600">£0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smart Contract Auto-Rebalancing Demo -->
+    <section id="rebalancing" class="py-16 bg-gradient-to-br from-gray-50 to-slate-100 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <p class="text-amber-600 font-medium text-sm mb-2">Smart Contract Automation</p>
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">Auto-Rebalancing Liquidity Pool</h2>
+                <p class="text-gray-500 max-w-xl mx-auto">See how the smart contract automatically triggers funding when peg balance is exceeded</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                <!-- Control Bar -->
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-gray-400 text-sm ml-4 font-mono">LiquidityPool.sol</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button id="resetDemo" class="text-xs text-gray-400 hover:text-white transition-colors">Reset</button>
+                        <button id="runDemo" class="bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium px-4 py-1.5 rounded-lg transition-colors flex items-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i>
+                            Run Simulation
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gray-200">
+                    <!-- Left: Pool Visualization -->
+                    <div class="p-6">
+                        <h3 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="droplets" class="w-5 h-5 text-blue-500"></i>
+                            WFGBP Liquidity Pool
+                        </h3>
+
+                        <!-- Pool State -->
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">Pool Balance</span>
+                                    <span id="poolBalance" class="font-bold text-gray-900">£50,000</span>
+                                </div>
+                                <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
+                                    <div id="poolBar" class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-700" style="width: 100%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                    <span>0</span>
+                                    <span id="poolCapLabel">Cap: £50,000</span>
+                                </div>
+                            </div>
+
+                            <!-- Incoming Transaction -->
+                            <div id="txCard" class="bg-amber-50 rounded-xl p-4 border border-amber-200 opacity-50 transition-all">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
+                                        <i data-lucide="arrow-down" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-amber-800">Incoming Settlement</p>
+                                        <p id="txAmount" class="text-lg font-bold text-gray-900">£75,000</p>
+                                    </div>
+                                </div>
+                                <p id="txStatus" class="text-xs text-amber-600">Waiting to process...</p>
+                            </div>
+
+                            <!-- Rebalancing Action -->
+                            <div id="rebalanceCard" class="bg-emerald-50 rounded-xl p-4 border border-emerald-200 opacity-30 transition-all">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div id="rebalanceIcon" class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-emerald-800">Auto-Funding Trigger</p>
+                                        <p id="fundingAmount" class="text-lg font-bold text-gray-900">+£75,000</p>
+                                    </div>
+                                </div>
+                                <p id="rebalanceStatus" class="text-xs text-emerald-600">Standby</p>
+                            </div>
+                        </div>
+
+                        <!-- Event Log -->
+                        <div class="bg-gray-900 rounded-xl p-4 h-32 overflow-y-auto font-mono text-xs">
+                            <div id="eventLog" class="space-y-1">
+                                <p class="text-gray-500">// Smart contract event log</p>
+                                <p class="text-blue-400">[INIT] Pool initialized: 50,000 WFGBP</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Contract Logic -->
+                    <div class="p-6 bg-gray-50">
+                        <h3 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="code" class="w-5 h-5 text-purple-500"></i>
+                            Contract Logic
+                        </h3>
+
+                        <div class="bg-gray-900 rounded-xl p-4 font-mono text-sm overflow-x-auto">
+                            <pre class="text-gray-300 leading-relaxed"><code><span class="text-purple-400">function</span> <span class="text-yellow-300">processSettlement</span>(<span class="text-blue-300">amount</span>) {
+  <span class="text-gray-500">// Check if exceeds peg balance</span>
+  <span id="codeLine1" class="transition-all"><span class="text-purple-400">if</span> (amount > pegBalance) {</span>
+
+    <span id="codeLine2" class="transition-all">  <span class="text-gray-500">// Calculate shortfall</span>
+    shortfall = amount - pegBalance;</span>
+
+    <span id="codeLine3" class="transition-all">  <span class="text-gray-500">// Emit auto-funding event</span>
+    <span class="text-green-400">emit</span> <span class="text-yellow-300">AutoFundingTriggered</span>(shortfall);</span>
+
+    <span id="codeLine4" class="transition-all">  <span class="text-gray-500">// Request treasury injection</span>
+    treasury.<span class="text-yellow-300">injectLiquidity</span>(shortfall);</span>
+
+    <span id="codeLine5" class="transition-all">  <span class="text-gray-500">// Update peg balance</span>
+    pegBalance += shortfall;</span>
+  }
+
+  <span id="codeLine6" class="transition-all"><span class="text-gray-500">// Execute settlement</span>
+  <span class="text-yellow-300">mint</span>(beneficiary, amount);
+  <span class="text-yellow-300">burn</span>(treasury, amount);</span>
+
+  <span id="codeLine7" class="transition-all"><span class="text-green-400">emit</span> <span class="text-yellow-300">SettlementComplete</span>(amount);</span>
+}</code></pre>
+                        </div>
+
+                        <!-- Status Indicators -->
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div id="statusExceeds" class="bg-white rounded-xl p-4 border border-gray-200 opacity-50 transition-all">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                                    <span class="text-xs font-medium text-gray-600">BALANCE CHECK</span>
+                                </div>
+                                <p id="statusExceedsText" class="text-sm text-gray-900">Pending</p>
+                            </div>
+                            <div id="statusFunding" class="bg-white rounded-xl p-4 border border-gray-200 opacity-50 transition-all">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                    <span class="text-xs font-medium text-gray-600">AUTO-FUNDING</span>
+                                </div>
+                                <p id="statusFundingText" class="text-sm text-gray-900">Standby</p>
+                            </div>
+                            <div id="statusMint" class="bg-white rounded-xl p-4 border border-gray-200 opacity-50 transition-all">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                    <span class="text-xs font-medium text-gray-600">MINT WFGBP</span>
+                                </div>
+                                <p id="statusMintText" class="text-sm text-gray-900">Pending</p>
+                            </div>
+                            <div id="statusComplete" class="bg-white rounded-xl p-4 border border-gray-200 opacity-50 transition-all">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-2 h-2 rounded-full bg-purple-500"></div>
+                                    <span class="text-xs font-medium text-gray-600">SETTLEMENT</span>
+                                </div>
+                                <p id="statusCompleteText" class="text-sm text-gray-900">Pending</p>
                             </div>
                         </div>
                     </div>
@@ -836,6 +996,173 @@
         $('usdInput').addEventListener('input', formatInput);
         $('saveToHistory').addEventListener('click', saveHistory);
         $('clearHistory').addEventListener('click', () => { history = []; renderHistory(); });
+
+        // ===== REBALANCING DEMO =====
+        let demoRunning = false;
+        const DEMO_POOL_CAP = 50000;
+        const DEMO_TX_AMOUNT = 75000;
+
+        function logEvent(msg, type = 'info') {
+            const log = $('eventLog');
+            const colors = {
+                info: 'text-blue-400',
+                warning: 'text-amber-400',
+                success: 'text-emerald-400',
+                error: 'text-red-400'
+            };
+            const p = document.createElement('p');
+            p.className = colors[type] || 'text-gray-400';
+            p.textContent = msg;
+            log.appendChild(p);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function highlightCode(lineId, active) {
+            const el = document.getElementById(lineId);
+            if (el) {
+                el.style.backgroundColor = active ? 'rgba(251, 191, 36, 0.2)' : 'transparent';
+                el.style.borderLeft = active ? '2px solid #f59e0b' : 'none';
+                el.style.paddingLeft = active ? '8px' : '0';
+                el.style.marginLeft = active ? '-10px' : '0';
+            }
+        }
+
+        function resetDemo() {
+            demoRunning = false;
+            // Reset pool
+            $('poolBalance').textContent = '£50,000';
+            $('poolBar').style.width = '100%';
+            $('poolBar').className = 'h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-700';
+
+            // Reset cards
+            $('txCard').classList.add('opacity-50');
+            $('txStatus').textContent = 'Waiting to process...';
+            $('rebalanceCard').classList.add('opacity-30');
+            $('rebalanceStatus').textContent = 'Standby';
+
+            // Reset status boxes
+            ['statusExceeds', 'statusFunding', 'statusMint', 'statusComplete'].forEach(id => {
+                $(id).classList.add('opacity-50');
+                $(id).classList.remove('ring-2', 'ring-amber-400', 'ring-emerald-400', 'ring-blue-400', 'ring-purple-400');
+            });
+            $('statusExceedsText').textContent = 'Pending';
+            $('statusFundingText').textContent = 'Standby';
+            $('statusMintText').textContent = 'Pending';
+            $('statusCompleteText').textContent = 'Pending';
+
+            // Reset code highlights
+            for (let i = 1; i <= 7; i++) highlightCode('codeLine' + i, false);
+
+            // Reset log
+            $('eventLog').innerHTML = `
+                <p class="text-gray-500">// Smart contract event log</p>
+                <p class="text-blue-400">[INIT] Pool initialized: 50,000 WFGBP</p>
+            `;
+
+            $('runDemo').innerHTML = '<i data-lucide="play" class="w-4 h-4"></i> Run Simulation';
+            lucide.createIcons();
+        }
+
+        async function runDemo() {
+            if (demoRunning) return;
+            demoRunning = true;
+            resetDemo();
+
+            $('runDemo').innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Running...';
+            lucide.createIcons();
+
+            const delay = ms => new Promise(r => setTimeout(r, ms));
+
+            // Step 1: Incoming transaction
+            await delay(500);
+            $('txCard').classList.remove('opacity-50');
+            $('txStatus').textContent = 'Processing incoming settlement...';
+            logEvent('[TX] Incoming settlement request: 75,000 WFGBP', 'info');
+
+            // Step 2: Check balance
+            await delay(800);
+            highlightCode('codeLine1', true);
+            $('statusExceeds').classList.remove('opacity-50');
+            $('statusExceeds').classList.add('ring-2', 'ring-amber-400');
+            logEvent('[CHECK] Comparing amount vs peg balance...', 'info');
+
+            await delay(600);
+            $('statusExceedsText').textContent = '75,000 > 50,000';
+            $('poolBar').className = 'h-full bg-gradient-to-r from-amber-500 to-red-500 rounded-full transition-all duration-700';
+            logEvent('[ALERT] Amount exceeds peg balance! Shortfall: 25,000', 'warning');
+
+            // Step 3: Calculate shortfall
+            await delay(800);
+            highlightCode('codeLine1', false);
+            highlightCode('codeLine2', true);
+            $('txStatus').textContent = 'Shortfall detected: £25,000';
+            logEvent('[CALC] Shortfall = 75,000 - 50,000 = 25,000 WFGBP', 'info');
+
+            // Step 4: Emit event
+            await delay(800);
+            highlightCode('codeLine2', false);
+            highlightCode('codeLine3', true);
+            $('rebalanceCard').classList.remove('opacity-30');
+            $('rebalanceStatus').textContent = 'Auto-funding triggered...';
+            $('fundingAmount').textContent = '+£25,000';
+            $('statusFunding').classList.remove('opacity-50');
+            $('statusFunding').classList.add('ring-2', 'ring-emerald-400');
+            logEvent('[EVENT] AutoFundingTriggered(25,000)', 'success');
+
+            // Step 5: Treasury injection
+            await delay(800);
+            highlightCode('codeLine3', false);
+            highlightCode('codeLine4', true);
+            $('statusFundingText').textContent = 'Injecting £25,000';
+            logEvent('[TREASURY] Injecting 25,000 WFGBP into pool...', 'info');
+
+            // Step 6: Update peg balance
+            await delay(800);
+            highlightCode('codeLine4', false);
+            highlightCode('codeLine5', true);
+            $('poolBalance').textContent = '£75,000';
+            $('poolCapLabel').textContent = 'Cap: £75,000 (expanded)';
+            $('poolBar').className = 'h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-700';
+            $('statusFundingText').textContent = 'Complete ✓';
+            $('rebalanceStatus').textContent = 'Pool expanded to £75,000';
+            logEvent('[UPDATE] Peg balance updated: 50,000 → 75,000', 'success');
+
+            // Step 7: Execute settlement
+            await delay(800);
+            highlightCode('codeLine5', false);
+            highlightCode('codeLine6', true);
+            $('statusMint').classList.remove('opacity-50');
+            $('statusMint').classList.add('ring-2', 'ring-blue-400');
+            $('statusMintText').textContent = 'Minting 75,000';
+            logEvent('[MINT] Minting 75,000 WFGBP to beneficiary...', 'info');
+
+            await delay(600);
+            logEvent('[BURN] Burning 75,000 WFGBP from treasury...', 'info');
+            $('statusMintText').textContent = 'Complete ✓';
+
+            // Step 8: Complete
+            await delay(800);
+            highlightCode('codeLine6', false);
+            highlightCode('codeLine7', true);
+            $('statusComplete').classList.remove('opacity-50');
+            $('statusComplete').classList.add('ring-2', 'ring-purple-400');
+            $('statusCompleteText').textContent = 'Success ✓';
+            $('txStatus').textContent = 'Settlement complete!';
+            $('txCard').style.borderColor = '#10b981';
+            $('txCard').style.backgroundColor = '#ecfdf5';
+            logEvent('[EVENT] SettlementComplete(75,000)', 'success');
+            logEvent('[DONE] Transaction processed successfully!', 'success');
+
+            await delay(500);
+            highlightCode('codeLine7', false);
+
+            $('runDemo').innerHTML = '<i data-lucide="rotate-ccw" class="w-4 h-4"></i> Run Again';
+            lucide.createIcons();
+            demoRunning = false;
+        }
+
+        $('runDemo').addEventListener('click', runDemo);
+        $('resetDemo').addEventListener('click', resetDemo);
 
         lucide.createIcons();
         update();
